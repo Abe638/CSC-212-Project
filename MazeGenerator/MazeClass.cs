@@ -97,6 +97,7 @@ public class Maze
                 calcList[i,j] = createPoint(i,j);
             }
         }
+        if( calcList[1,1].wall == true ) return false;
         calcList[1,1].open = true;
         openList.Enqueue(calcList[1,1]);
         while( openList.Count != 0)
