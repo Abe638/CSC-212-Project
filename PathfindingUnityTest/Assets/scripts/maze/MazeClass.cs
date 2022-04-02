@@ -30,11 +30,11 @@ public class Maze
         }
         if(validMaze)
         {
-           Debug.Log("validMaze");
+           //Debug.Log("validMaze");
         }
         else
         {
-            Debug.Log("InvalidMaze");
+            //Debug.Log("InvalidMaze");
         }
     }
     public bool recreateMaze(float cutOff)
@@ -42,7 +42,7 @@ public class Maze
         return createMaze(cutOff);
     }
 
-    private bool createMaze(float cutOff)
+    public bool createMaze(float cutOff)
     {
         for( int i = 0; i < mazeLengthInTiles+2; ++i )
         {
@@ -56,7 +56,7 @@ public class Maze
             }
         }
 
-        return testMazeViability();
+        return TestMazeViability();
     }
 
     private class Point
@@ -71,7 +71,7 @@ public class Maze
         public bool open;
     }
 
-    private Point createPoint( int _x, int _y )
+    private Point CreatePoint( int _x, int _y )
     {
         Point point = new Point();
         point.xPos = _x;
@@ -86,7 +86,7 @@ public class Maze
         return point;
     }
 
-    private bool testMazeViability()
+    private bool TestMazeViability()
     {
         Point[,] calcList = new Point[mazeLengthInTiles+2,mazeLengthInTiles+2];
         Queue<Point> openList = new Queue<Point>();
@@ -94,7 +94,7 @@ public class Maze
         {
             for( int j = 0; j < mazeLengthInTiles+2; ++j )
             {
-                calcList[i,j] = createPoint(i,j);
+                calcList[i,j] = CreatePoint(i,j);
             }
         }
         if( calcList[1,1].wall == true ) return false;

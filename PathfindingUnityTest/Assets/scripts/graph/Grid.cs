@@ -1,34 +1,35 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class Grid : MonoBehaviour
 {
 
 	public bool onlyDisplayPathGizmos;
+	public bool GA;
 	public LayerMask unwalkableMask;
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
+	System.Random num = new System.Random();
 	Node[,] grid;
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 
 	void Awake() {
+		
+	}
+
+	public void RefreshGrid()
+	{
 		nodeDiameter = nodeRadius*2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter);
 		CreateGrid();
-	}
-
-	public int MaxSize
-	{
-		get
-		{
-			return gridSizeX * gridSizeY;
-		}
 	}
 
 	void CreateGrid() {
@@ -64,6 +65,63 @@ public class Grid : MonoBehaviour
 		return neighbors;
 	}
 	
+	/*public Node RandNeighbor(Node node)
+	{
+		//System.Random num = new System.Random();
+		int rInt = num.Next(0, 7);
+		int checkX = node.ClassGridX;
+		int checkY = node.ClassGridY;
+		Node newNode = grid[checkX, checkY];
+		
+		//if (checkX == 0)
+
+		switch (rInt)
+		{
+			case 0:
+				checkX = node.ClassGridX - 1;
+				checkY = node.ClassGridY - 1;
+				newNode = grid[checkX, checkY];
+				break;
+			case 1:
+				checkX = node.ClassGridX;
+				checkY = node.ClassGridY - 1;
+				newNode = grid[checkX, checkY];
+				break;
+			case 2:
+				checkX = node.ClassGridX + 1;
+				checkY = node.ClassGridY - 1;
+				newNode = grid[checkX, checkY];
+				break;
+			case 3:
+				checkX = node.ClassGridX - 1;
+				checkY = node.ClassGridY;
+				newNode = grid[checkX, checkY];
+				break;
+			case 4:
+				checkX = node.ClassGridX + 1;
+				checkY = node.ClassGridY;
+				newNode = grid[checkX, checkY];
+				break;
+			case 5:
+				checkX = node.ClassGridX - 1;
+				checkY = node.ClassGridY + 1;
+				newNode = grid[checkX, checkY];
+				break;
+			case 6:
+				checkX = node.ClassGridX;
+				checkY = node.ClassGridY + 1;
+				newNode = grid[checkX, checkY];
+				break;
+			case 7:
+				checkX = node.ClassGridX + 1;
+				checkY = node.ClassGridY + 1;
+				newNode = grid[checkX, checkY];
+				break;
+		}
+
+		return newNode;
+	}*/
+	
 
 	public Node NodeFromWorldPoint(Vector3 worldPosition) {
 		float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
@@ -85,9 +143,10 @@ public class Grid : MonoBehaviour
 			{
 				foreach (Node n in path)
 				{
-					Gizmos.color = Color.black;
+					Gizmos.color = Color.red;
+					if (GA)
+						Gizmos.color = Color.blue;
 					Gizmos.DrawCube(n.ClassWorldPosition, Vector3.one * (nodeDiameter));
-					//Gizmos.DrawSphere(n.ClassWorldPosition, (nodeRadius*2));
 				}
 			}
 		}

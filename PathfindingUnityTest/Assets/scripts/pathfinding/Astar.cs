@@ -2,25 +2,39 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using UnityEngine.Rendering;
 
-public class pathfinding : MonoBehaviour {
+public class Astar : MonoBehaviour {
 
     public Transform seeker, target;
+    private int step;
+    string location = @"D:\Unity\PathfindingUnityTest\Assets\scripts\pathfinding\results.txt";
+    string results;
     Grid grid;
 
     void Awake() {
         grid = GetComponent<Grid> ();
     }
 
-    void Update() {
-        if (Input.GetButtonDown("Jump"))
-            FindPath (seeker.position, target.position);
+    void Update()
+    {
+
     }
 
-
-    void FindPath(Vector3 startPos, Vector3 targetPos) {
+    public void RunAstar()
+    {
         Stopwatch sw = new Stopwatch();
         sw.Start();
+        FindPath(seeker.position, target.position);
+        sw.Stop();
+        print("A* time: " + sw.ElapsedMilliseconds + " ms");
+        results = sw.ElapsedMilliseconds + ", " + step + "\n";
+        File.AppendAllText(location, results);
+        print("A* found the goal in " + step + " steps.");
+    }
+    
+    void FindPath(Vector3 startPos, Vector3 targetPos) {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
 
@@ -41,8 +55,6 @@ public class pathfinding : MonoBehaviour {
             closedSet.Add(node);
 
             if (node == targetNode) {
-                sw.Stop();
-                print("A* time: " + sw.ElapsedMilliseconds + " ms");
                 RetracePath(startNode,targetNode);
                 return;
             }
@@ -76,6 +88,15 @@ public class pathfinding : MonoBehaviour {
         path.Reverse();
 
         grid.path = path;
+        
+        if (path != null)
+        {
+            step = 0;
+            foreach (Node n in path)
+            { 
+                step++;
+            }
+        }
 
     }
 
