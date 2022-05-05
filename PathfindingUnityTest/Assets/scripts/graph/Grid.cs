@@ -5,25 +5,44 @@ using System.Globalization;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
+/// <summary>
+/// Class for grid object
+/// </summary>
 public class Grid : MonoBehaviour
 {
-
+	/// <summary>
+	/// bool for switching unity display on/off
+	/// </summary>
 	public bool onlyDisplayPathGizmos;
+	/// <summary>
+	/// switch for Using Genitic Algo/A*
+	/// </summary>
 	public bool GA;
+	/// <summary>
+	/// display for walkable tiles
+	/// </summary>
 	public LayerMask unwalkableMask;
+	/// <summary>
+	/// variable controlling grid size
+	/// </summary>
 	public Vector2 gridWorldSize;
+	/// <summary>
+	/// dictates node size
+	/// </summary>
 	public float nodeRadius;
-	System.Random num = new System.Random();
+	/// <summary>
+	/// Empty grid object
+	/// </summary>
 	Node[,] grid;
-
+	/// <summary>
+	/// node size (radius*2)
+	/// </summary>
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 
-	void Awake() {
-		
-	}
-
+	/// <summary>
+	/// resets grid
+	/// </summary>
 	public void RefreshGrid()
 	{
 		nodeDiameter = nodeRadius*2;
@@ -32,6 +51,9 @@ public class Grid : MonoBehaviour
 		CreateGrid();
 	}
 
+	/// <summary>
+	/// Creates a new grid
+	/// </summary>
 	void CreateGrid() {
 		grid = new Node[gridSizeX,gridSizeY];
 		Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.forward * gridWorldSize.y/2;
@@ -44,7 +66,11 @@ public class Grid : MonoBehaviour
 			}
 		}
 	}
-
+	/// <summary>
+	/// Creates list of neighboring nodes
+	/// </summary>
+	/// <param name="node">Node object to find neighbors of</param>
+	/// <returns>Neighbors if node</returns>
 	public List<Node> GetNeighbors(Node node) {
 		List<Node> neighbors = new List<Node>();
 
@@ -64,65 +90,12 @@ public class Grid : MonoBehaviour
 
 		return neighbors;
 	}
-	
-	/*public Node RandNeighbor(Node node)
-	{
-		//System.Random num = new System.Random();
-		int rInt = num.Next(0, 7);
-		int checkX = node.ClassGridX;
-		int checkY = node.ClassGridY;
-		Node newNode = grid[checkX, checkY];
-		
-		//if (checkX == 0)
 
-		switch (rInt)
-		{
-			case 0:
-				checkX = node.ClassGridX - 1;
-				checkY = node.ClassGridY - 1;
-				newNode = grid[checkX, checkY];
-				break;
-			case 1:
-				checkX = node.ClassGridX;
-				checkY = node.ClassGridY - 1;
-				newNode = grid[checkX, checkY];
-				break;
-			case 2:
-				checkX = node.ClassGridX + 1;
-				checkY = node.ClassGridY - 1;
-				newNode = grid[checkX, checkY];
-				break;
-			case 3:
-				checkX = node.ClassGridX - 1;
-				checkY = node.ClassGridY;
-				newNode = grid[checkX, checkY];
-				break;
-			case 4:
-				checkX = node.ClassGridX + 1;
-				checkY = node.ClassGridY;
-				newNode = grid[checkX, checkY];
-				break;
-			case 5:
-				checkX = node.ClassGridX - 1;
-				checkY = node.ClassGridY + 1;
-				newNode = grid[checkX, checkY];
-				break;
-			case 6:
-				checkX = node.ClassGridX;
-				checkY = node.ClassGridY + 1;
-				newNode = grid[checkX, checkY];
-				break;
-			case 7:
-				checkX = node.ClassGridX + 1;
-				checkY = node.ClassGridY + 1;
-				newNode = grid[checkX, checkY];
-				break;
-		}
-
-		return newNode;
-	}*/
-	
-
+	/// <summary>
+	/// Finds grid coords based on world position
+	/// </summary>
+	/// <param name="worldPosition"></param>
+	/// <returns>coordinates</returns>
 	public Node NodeFromWorldPoint(Vector3 worldPosition) {
 		float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
 		float percentY = (worldPosition.z + gridWorldSize.y/2) / gridWorldSize.y;
@@ -134,7 +107,13 @@ public class Grid : MonoBehaviour
 		return grid[x,y];
 	}
 
+	/// <summary>
+	/// List storing path
+	/// </summary>
 	public List<Node> path;
+	/// <summary>
+	/// Handles Unity display
+	/// </summary>
 	void OnDrawGizmos() {
 
 		if (onlyDisplayPathGizmos)

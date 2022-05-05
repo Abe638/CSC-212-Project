@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manager that executes Maze generation, Pathfinding, and results.
+///
+/// Many objects that are declared here will not be explained as they are just used to call functions in other classes
+/// </summary>
 public class manager : MonoBehaviour
 {
     private Astar _astar;
@@ -14,7 +19,11 @@ public class manager : MonoBehaviour
     [SerializeField] GameObject ACO;
     [SerializeField] GameObject Maze;
 
-// Start is called before the first frame update
+    /// <summary>
+    /// Built in Unity function that executes on game start
+    ///
+    /// initializes pathfinding, maze generating objects
+    /// </summary>
     void Awake()
     {
         _aco = ACO.GetComponent<ACO>();
@@ -23,8 +32,11 @@ public class manager : MonoBehaviour
         _acoGrid = ACO.GetComponent<Grid>();
         _astarGrid = Astar.GetComponent<Grid>();
     }
-
-    // Update is called once per frame
+    /// <summary>
+    /// Built in Unity function called once per frame
+    ///
+    /// Generates maze and finds path when the space bar is pressed
+    /// </summary>
     void Update()
     {
         for (int i = 0; i < numTests; i++)

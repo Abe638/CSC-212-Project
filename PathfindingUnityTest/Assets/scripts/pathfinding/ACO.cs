@@ -6,24 +6,60 @@ using System.Diagnostics;
 using System.IO;
 using UnityEngine.Rendering;
 
+/// <summary>
+/// Class handling the Genetic Algorithms/ACO 
+/// </summary>
 public class ACO : MonoBehaviour
 {
 
-    public Transform seeker, target;
+    /// <summary>
+    /// Object for the start of the pathfinding
+    /// </summary>
+    public Transform seeker;
+    /// <summary>
+    /// Object for the end of the pathfinding
+    /// </summary>
+    public Transform target;
+    /// <summary>
+    /// random number for mutaions
+    /// </summary>
     public int numGen;
+    /// <summary>
+    /// counter for steps taken
+    /// </summary>
     private int ACOstep;
+    /// <summary>
+    /// string holding location of results folder
+    /// </summary>
     string location = @"D:\Unity\PathfindingUnityTest\Assets\scripts\pathfinding\results.txt";
+    /// <summary>
+    /// holds results to be output
+    /// </summary>
     string results;
+    /// <summary>
+    /// grid object used for pathfinding operations
+    /// </summary>
     Grid grid;
 
+    /// <summary>
+    /// Unity specific function that triggers on start of game
+    /// </summary>
     void Awake() {
         grid = GetComponent<Grid> ();
     }
 
+    /// <summary>
+    /// unity specific function called on every frame
+    /// </summary>
     void Update() {
 
     }
 
+    /// <summary>
+    /// main funtion for ACO
+    ///
+    /// Uses a modified A* pathfinding with a random mutation, this mutation is then evaluated for fitness. The fittest is then used for the seed of future generations.
+    /// </summary>
     public void RunACO()
     {
         Stopwatch sw2 = new Stopwatch();
@@ -41,6 +77,13 @@ public class ACO : MonoBehaviour
         print("ACO found the goal in " + ACOstep + " steps.");
     }
 
+    /// <summary>
+    /// Modified A* for ACO use
+    /// @see Astar
+    /// </summary>
+    /// <param name="startPos">Starting node for pathfinding</param>
+    /// <param name="targetPos">Node set as goal for pathfinding</param>
+    /// <param name="mutation">Variable determining mutation for GA</param>
     void FindPath(Vector3 startPos, Vector3 targetPos, int mutation) {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
@@ -84,6 +127,11 @@ public class ACO : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Retraces path by checking every node's "parent"
+    /// </summary>
+    /// <param name="startNode">Start of path</param>
+    /// <param name="endNode">End of path</param>
     void RetracePath(Node startNode, Node endNode) {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
@@ -107,6 +155,12 @@ public class ACO : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Evaluates Distance from nodeA to nodeB
+    /// </summary>
+    /// <param name="nodeA"></param>
+    /// <param name="nodeB"></param>
+    /// <returns>Distance between nodes</returns>
     int GetDistance(Node nodeA, Node nodeB) {
         int dstX = Mathf.Abs(nodeA.ClassGridX - nodeB.ClassGridX);
         int dstY = Mathf.Abs(nodeA.ClassGridY - nodeB.ClassGridY);

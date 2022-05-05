@@ -2,28 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+/// <summary>
+/// Creates Maze in Unity using build in functions
+/// </summary>
 public class MazeObject : MonoBehaviour
 {
+    /// <summary>
+    /// Maze object used for creation in unity
+    /// </summary>
     public Maze maze;
+    /// <summary>
+    /// @see MazeClass
+    /// </summary>
     public float tileLength;
+    /// <summary>
+    /// @see MazeClass
+    /// </summary>
     public int mazeLengthInTiles;
+    /// <summary>
+    /// @see MazeClass
+    /// </summary>
     public float cutOff;
  
-    // Start is called before the first frame update
+    /// <summary>
+    /// Called on game start
+    /// </summary>
     void Start()
     {
         maze = new Maze(tileLength,mazeLengthInTiles,cutOff);
-
-        
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Called when "draw gizmos" button is clicked in unity
+    /// </summary>
     void OnDrawGizmos()
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();

@@ -5,23 +5,54 @@ using System.Diagnostics;
 using System.IO;
 using UnityEngine.Rendering;
 
+/// <summary>
+/// Class handling A* pathfinding
+/// </summary>
 public class Astar : MonoBehaviour {
 
-    public Transform seeker, target;
+    /// <summary>
+    /// Object for the start of the pathfinding
+    /// </summary>
+    public Transform seeker;
+    /// <summary>
+    /// Object for the end of the pathfinding
+    /// </summary>
+    public Transform target;
+    /// <summary>
+    /// tracker for steps taken by A*
+    /// </summary>
     private int step;
+    /// <summary>
+    /// File path of results.txt
+    /// </summary>
     string location = @"D:\Unity\PathfindingUnityTest\Assets\scripts\pathfinding\results.txt";
+    /// <summary>
+    /// string holding results for output to results.txt
+    /// </summary>
     string results;
+    /// <summary>
+    /// grid object used for pathfinding operations
+    /// </summary>
     Grid grid;
 
+    /// <summary>
+    /// Unity specific function that triggers on start of game
+    /// </summary>
     void Awake() {
         grid = GetComponent<Grid> ();
     }
 
+    /// <summary>
+    /// Unity specific function that triggers on frame update
+    /// </summary>
     void Update()
     {
 
     }
 
+    /// <summary>
+    /// Main function for running A* and recording results
+    /// </summary>
     public void RunAstar()
     {
         Stopwatch sw = new Stopwatch();
@@ -34,6 +65,13 @@ public class Astar : MonoBehaviour {
         print("A* found the goal in " + step + " steps.");
     }
     
+    /// <summary>
+    /// Implementation of A*
+    /// 
+    /// Finds the shortest path between 2 nodes using heuristic math to cut down on possible paths
+    /// </summary>
+    /// <param name="startPos">Starting node of pathfinder</param>
+    /// <param name="targetPos">Target node of pathfinder</param>
     void FindPath(Vector3 startPos, Vector3 targetPos) {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
@@ -77,6 +115,11 @@ public class Astar : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Retraces path by checking every node's "parent"
+    /// </summary>
+    /// <param name="startNode">Start of path</param>
+    /// <param name="endNode">End of path</param>
     void RetracePath(Node startNode, Node endNode) {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
@@ -100,6 +143,12 @@ public class Astar : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Evaluates Distance from nodeA to nodeB
+    /// </summary>
+    /// <param name="nodeA"></param>
+    /// <param name="nodeB"></param>
+    /// <returns>Distance between nodes</returns>
     int GetDistance(Node nodeA, Node nodeB) {
         int dstX = Mathf.Abs(nodeA.ClassGridX - nodeB.ClassGridX);
         int dstY = Mathf.Abs(nodeA.ClassGridY - nodeB.ClassGridY);
