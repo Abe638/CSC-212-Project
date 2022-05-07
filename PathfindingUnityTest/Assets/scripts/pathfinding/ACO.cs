@@ -56,7 +56,7 @@ public class ACO : MonoBehaviour
     }
 
     /// <summary>
-    /// main funtion for ACO
+    /// main function for ACO
     ///
     /// Uses a modified A* pathfinding with a random mutation, this mutation is then evaluated for fitness. The fittest is then used for the seed of future generations.
     /// </summary>
