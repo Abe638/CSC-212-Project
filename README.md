@@ -14,6 +14,8 @@ MazeGenerator - contains the unity scripts for the maze genereation feature, wri
 
 PathfindingUnityTest - contains the entire Unity project including all scripts and assets.
 
+Research Paper - contains research paper on our experience with the project
+
 .gitignore - file containing preferences on what is pushed to the github
 
 Astar demo.mp4 - test of an early prototype build
